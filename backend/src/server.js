@@ -7,3 +7,5 @@ app.use("/api/notes",notesRoutes)
 app.listen(5002,()=> {
     console.log("Server Running on Port:5001");
 })
+
+"mongodb+srv://albin:albin@cluster0.s8zt5sm.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
