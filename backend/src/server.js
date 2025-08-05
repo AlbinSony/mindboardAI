@@ -10,10 +10,10 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5001;
-
+app.use(cors())
 app.use(express.json());
 app.use(ratelimiter);
-app.use(cors())
+
 // app.use((req,res,next)=> {
 //     console.log("Request Method",req.method + " Request URL: " + req.url);
 //     next();
