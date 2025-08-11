@@ -8,6 +8,9 @@
 # Node modules
 node_modules/
 
+# Uploads directory
+uploads/
+
 # Logs
 *.log
 npm-debug.log*
