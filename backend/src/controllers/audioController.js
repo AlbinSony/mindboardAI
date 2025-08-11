@@ -97,26 +97,26 @@ export async function processAudio(req, res) {
     
     // Create the prompt for audio processing
     const prompt = `
-    Please transcribe and analyze the following audio recording and create a well-structured note from it. 
+    Please transcribe the following audio recording exactly as spoken. Do not add any analysis, interpretation, or additional information.
     
     Instructions:
-    1. First, transcribe the audio content accurately
-    2. Then organize it into a meaningful note format
-    3. Create a concise, descriptive title based on the main topic
-    4. Structure the content clearly with proper formatting
+    1. Extract only the actual words spoken by the user
+    2. Create a short title from the main topic mentioned
+    3. Put the exact transcribed content in the content field
+    4. Do not add commentary, analysis, or explanations about the audio quality
     
     Return your response in this exact JSON format (no additional text or markdown):
     {
-      "title": "A clear, concise title (max 80 characters)",
-      "content": "Well-formatted content with proper structure, paragraphs, and bullet points where appropriate"
+      "title": "Short title based on what was said (max 60 characters)",
+      "content": "Exact transcription of what the user said, nothing more"
     }
     
-    Guidelines for content formatting:
-    - Use bullet points for lists or key points
-    - Separate different topics into paragraphs
-    - Keep the language clear and readable
-    - If it's a meeting or conversation, structure it appropriately
-    - If it's unclear audio, mention that in the content
+    Rules:
+    - Only transcribe the actual spoken words
+    - Do not add phrases like "The audio recording consisted of" or "Following the statement"
+    - Do not analyze audio quality or add interpretations
+    - Keep the content as the raw transcribed speech
+    - If unclear, just write what you can understand, don't explain why it's unclear
     `;
 
     console.log("Sending request to Gemini API...");
