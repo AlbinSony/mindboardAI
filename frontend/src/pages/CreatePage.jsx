@@ -1,19 +1,43 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom';
-import {ArrowLeftIcon} from "lucide-react"
+import { Link, useNavigate } from 'react-router-dom';
+import {ArrowLeftIcon, ImageOff} from "lucide-react"
+import { toast } from 'react-hot-toast';
+import api from '../lib/axios.';
 
 const CreatePage = () => {
   const [title,setTitle] = useState("");
   const [content,setContent] = useState("");
   const [loading,setLoading] = useState(false);
 
-  const handleSubmit = () => {
-    
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!title.trim() || !content.trim() ) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    setLoading(true);``
+    try {
+      await api.post("/notes",{
+        title,
+        content
+      })
+      toast.success("Note created successfully");
+      navigate("/");
+    } catch (error) {
+      toast.error("Failed to create note. Please try again.");
+      console.error("Error creating note:", error);
+    }
+    finally{
+      setLoading(false);
+    }
   }
   return (
     <div className='min-h-screen bg-base-200'>
-      <div className='container mx-auto px-4 py-8'>
-        <div className='max-w-2xl max-auto'>
+      <div className='max-w-7xl mx-auto p-4 mt-6'>
+        <div className='max-w-2xl mx-auto'>
           <Link to={"/"} className='btn btn-ghost mb-6'>
           <ArrowLeftIcon className='size-5' />
           Back To Notes
@@ -26,7 +50,18 @@ const CreatePage = () => {
                   <label className='label'>
                     <span className='label-text'>Title</span>
                   </label>
-                  <input type="text" placeholder='Note Title' className='input input-bordered' />
+                  <input type="text" placeholder='Note Title' className='input input-bordered' value={title}  onChange={ (e) => setTitle(e.target.value)}/>
+                </div>
+                <div className='form-control mb-4'>
+                  <label className='label'>
+                    <span className='label-text'>Content</span>
+                  </label>
+                  <textarea placeholder='Write Your Note Here...' className='textarea textarea-bordered h-32' value={content} onChange={(e)=>setContent(e.target.value)}></textarea>
+                </div>
+                <div className="card-actions justify-end">
+                  <button type='submit' className='btn btn-primary' disabled={loading} >
+                    {loading ? "Creating..." : "Create Note"}
+                  </button>
                 </div>
               </form>
             </div>
